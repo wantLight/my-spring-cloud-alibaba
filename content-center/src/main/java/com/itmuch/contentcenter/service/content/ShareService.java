@@ -10,6 +10,7 @@ import com.itmuch.contentcenter.domain.dto.user.UserDTO;
 import com.itmuch.contentcenter.domain.entity.content.Share;
 import com.itmuch.contentcenter.domain.entity.messaging.RocketmqTransactionLog;
 
+import com.itmuch.contentcenter.feignclient.UserCenterFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,9 +36,12 @@ public class ShareService {
 
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
 
-    private final DiscoveryClient discoveryClient;
+//    private final DiscoveryClient discoveryClient;
 
-    private final RestTemplate restTemplate;
+    //private final RestTemplate restTemplate;
+
+    private final UserCenterFeignClient userCenterFeignClient;
+
 
 
     public ShareDTO findById(Integer id) {
@@ -51,16 +55,23 @@ public class ShareService {
 //                instance.getUri().toString() + "/users/{id}"
 //        ).findFirst().orElseThrow(() -> new IllegalArgumentException("当前没有示例"));
 
+
+
         // Ribbon自动转化user-center
-        UserDTO userDTO = restTemplate.getForObject(
-                "http://user-center/users/{userId}",UserDTO.class,userId
-        );
+//        UserDTO userDTO = restTemplate.getForObject(
+//                "http://user-center/users/{userId}",UserDTO.class,userId
+//        );
+
+
 
         // 1. 代码不可读
         // 2. 复杂的url难以维护：https://user-center/s?ie={ie}&f={f}&rsv_bp=1&rsv_idx=1&tn=baidu&wd=a&rsv_pq=c86459bd002cfbaa&rsv_t=edb19hb%2BvO%2BTySu8dtmbl%2F9dCK%2FIgdyUX%2BxuFYuE0G08aHH5FkeP3n3BXxw&rqlang=cn&rsv_enter=1&rsv_sug3=1&rsv_sug2=0&inputT=611&rsv_sug4=611
         // 3. 难以相应需求的变化，变化很没有幸福感
         // 4. 编程体验不统一
-        //UserDTO userDTO = this.userCenterFeignClient.findById(userId);
+        /**
+         * feign 的负载均衡也是通过整合ribbon实现的
+         */
+        UserDTO userDTO = userCenterFeignClient.findById(userId);
 
         ShareDTO shareDTO = new ShareDTO();
         // 消息的装配
