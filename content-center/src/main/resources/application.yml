@@ -15,6 +15,7 @@ spring:
         server-addr: localhost:8848
         cluster-name: BJ
 #        # namespace: 56116141-d837-4d15-8842-94e153bb6cfb
+
 #    sentinel:
 #      filter:
 #        # 打开/关闭掉对Spring MVC端点的保护
@@ -44,13 +45,15 @@ spring:
 server:
   port: 8010
 
-#user-center:
-#  ribbon:
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-#ribbon:
-#  eager-load:
-#    enabled: true
-#    clients: user-center
+# ribbon 配置，优先级高 饥饿加载解决首次请求过慢的问题，以，分隔
+user-center:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+ribbon:
+  eager-load:
+    enabled: true
+    clients: user-center
+
 logging:
   level:
     com.itmuch.contentcenter.feignclient.UserCenterFeignClient: debug

@@ -18,6 +18,7 @@ spring:
         # NJ
         # 指定集群名称
         cluster-name: BJ
+        # 定义元数据， 扩展Ribbon-基于元数据的版本控制
         metadata:
           instance: c
           haha: hehe

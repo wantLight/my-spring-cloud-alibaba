@@ -42,5 +42,5 @@ public class NacosWeightedRule extends AbstractLoadBalancerRule {
     }
 }
 
-// spring cloud commons --> 定义了标准
+// spring cloud commons --> 定义了标准，整合Ribbon为了符合标准
 // spring cloud loadbalancer --> 没有权重

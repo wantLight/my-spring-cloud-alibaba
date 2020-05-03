@@ -46,12 +46,14 @@ public class ShareService {
         // 发布人id
         Integer userId = share.getUserId();
 
-        List<ServiceInstance> instances = discoveryClient.getInstances("user-center");
-        String targetURL = instances.stream().map(instance ->
-                instance.getUri().toString() + "/users/{id}"
-        ).findFirst().orElseThrow(() -> new IllegalArgumentException("当前没有示例"));
+//        List<ServiceInstance> instances = discoveryClient.getInstances("user-center");
+//        String targetURL = instances.stream().map(instance ->
+//                instance.getUri().toString() + "/users/{id}"
+//        ).findFirst().orElseThrow(() -> new IllegalArgumentException("当前没有示例"));
+
+        // Ribbon自动转化user-center
         UserDTO userDTO = restTemplate.getForObject(
-                targetURL,UserDTO.class,userId
+                "http://user-center/users/{userId}",UserDTO.class,userId
         );
 
         // 1. 代码不可读
@@ -69,7 +71,7 @@ public class ShareService {
 
     public static void main(String[] args) {
         int a = 0;
-        
+
         RestTemplate restTemplate = new RestTemplate();
         // 用HTTP GET方法去请求，并且返回一个对象
         ResponseEntity<String> forEntity = restTemplate.getForEntity(

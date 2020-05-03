@@ -45,6 +45,8 @@ public class NacosSameClusterWeightedRule extends AbstractLoadBalancerRule {
             // 1. 找到指定服务的所有实例 A
             List<Instance> instances = namingService.selectInstances(name, true);
 
+            // instances.get(0).getMetadata(); 元数据版本管理
+
             // 2. 过滤出相同集群下的所有实例 B
             List<Instance> sameClusterInstances = instances.stream()
                 .filter(instance -> Objects.equals(instance.getClusterName(), clusterName))
@@ -75,6 +77,7 @@ public class NacosSameClusterWeightedRule extends AbstractLoadBalancerRule {
 }
 
 class ExtendBalancer extends Balancer {
+    // 调用protect的方法
     public static Instance getHostByRandomWeight2(List<Instance> hosts) {
         return getHostByRandomWeight(hosts);
     }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -18,7 +20,7 @@ public class BonusController {
     private final UserService userService;
 
     @PutMapping("/add-bonus")
-    public User addBonus(@RequestBody UserAddBonseDTO userAddBonseDTO) {
+    public User addBonus(@RequestBody @Valid UserAddBonseDTO userAddBonseDTO) {
         Integer userId = userAddBonseDTO.getUserId();
         userService.addBonus(
             UserAddBonusMsgDTO.builder()

@@ -19,9 +19,10 @@ public class ContentCenterApplication {
         SpringApplication.run(ContentCenterApplication.class, args);
     }
 
-    // 在spring容器中，创建一个对象，类型RestTemplate；名称/ID是：restTemplate
-    // <bean id="restTemplate" class="xxx.RestTemplate"/>
+
+
     @Bean
+    // 为RestTemplate增加Ribbon
     @LoadBalanced
     public RestTemplate restTemplate() {
         RestTemplate template = new RestTemplate();
