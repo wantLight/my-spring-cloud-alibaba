@@ -40,6 +40,9 @@ public class ShareService {
 
     //private final RestTemplate restTemplate;
 
+    /**
+     * restTemplate 的性能远高于 Feign，除此之外选择feign就好啦
+     */
     private final UserCenterFeignClient userCenterFeignClient;
 
 
