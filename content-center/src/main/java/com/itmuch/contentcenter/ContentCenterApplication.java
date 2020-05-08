@@ -2,6 +2,7 @@ package com.itmuch.contentcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.alibaba.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -23,10 +24,19 @@ public class ContentCenterApplication {
     }
 
 
-
+    /**
+     * 双击shift搜索
+     * SentinelBeanPostProcessor
+     * Spring Bean 后處理器
+     * 反射
+     * RestTemplate攔截器
+     * @return
+     */
     @Bean
     // 为RestTemplate增加Ribbon
     @LoadBalanced
+    // 为RestTemplate整合Sentinel
+    @SentinelRestTemplate
     public RestTemplate restTemplate() {
         RestTemplate template = new RestTemplate();
 //        template.setInterceptors(

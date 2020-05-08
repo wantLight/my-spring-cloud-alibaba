@@ -1,9 +1,19 @@
 package com.itmuch.contentcenter;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.Tracer;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.context.ContextUtil;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.itmuch.contentcenter.dao.content.ShareMapper;
 import com.itmuch.contentcenter.domain.dto.user.UserDTO;
 import com.itmuch.contentcenter.domain.entity.content.Share;
 
+import com.itmuch.contentcenter.sentineltest.TestControllerBlockHandlerClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,56 +105,83 @@ public class TestController {
         return "test-b";
     }
 
-//    @GetMapping("test-hot")
-//    @SentinelResource("hot")
-//    public String testHot(
-//        @RequestParam(required = false) String a,
-//        @RequestParam(required = false) String b
-//    ) {
-//        return a + " " + b;
-//    }
-//
-//    @GetMapping("test-add-flow-rule")
-//    public String testHot() {
-//        this.initFlowQpsRule();
-//        return "success";
-//    }
-//
-//    private void initFlowQpsRule() {
-//        List<FlowRule> rules = new ArrayList<>();
-//        FlowRule rule = new FlowRule("/shares/1");
-//        // set limit qps to 20
-//        rule.setCount(20);
-//        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
-//        rule.setLimitApp("default");
-//        rules.add(rule);
-//        FlowRuleManager.loadRules(rules);
-//    }
-//
+
+    /**
+     * sentinel 实现了服务发现
+     *
+     *
+     * 也可以对指定参数索引的某个值做限制
+     *
+     * sentinel 热点规则 --- 存在热点参数，某个参数的QPS很高，提高API的可用性
+     * @param a 参数索引-0   必须是基本类型 or String
+     * @param b
+     * @return
+     */
+    @GetMapping("test-hot")
+    @SentinelResource("hot")
+    public String testHot(
+        @RequestParam(required = false) String a,
+        @RequestParam(required = false) String b
+    )
+    {
+        return a + " " + b;
+    }
+
+
+
+    @GetMapping("test-add-flow-rule")
+    public String testHot() {
+        this.initFlowQpsRule();
+        return "success";
+    }
+
+    /**
+     * sentinel 代码流控规则
+     */
+    private void initFlowQpsRule() {
+        List<FlowRule> rules = new ArrayList<>();
+        FlowRule rule = new FlowRule("/shares/1");
+        // set limit qps to 20
+        rule.setCount(20);
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule.setLimitApp("default");
+        rules.add(rule);
+        FlowRuleManager.loadRules(rules);
+    }
+
+
+    /**
+     * 核心api - 注解能让它更加优雅
+     * @param a
+     * @return
+     */
 //    @GetMapping("/test-sentinel-api")
 //    public String testSentinelAPI(
 //        @RequestParam(required = false) String a) {
 //
 //        String resourceName = "test-sentinel-api";
+//
+//        // 针对来源 - 配置
 //        ContextUtil.enter(resourceName, "test-wfw");
 //
 //        // 定义一个sentinel保护的资源，名称是test-sentinel-api
 //        Entry entry = null;
 //        try {
-//
+//            // 监控该资源
 //            entry = SphU.entry(resourceName);
 //            // 被保护的业务逻辑
 //            if (StringUtils.isBlank(a)) {
+//                // 这里的IllegalArgumentException不会去降级
 //                throw new IllegalArgumentException("a不能为空");
 //            }
 //            return a;
 //        }
-//        // 如果被保护的资源被限流或者降级了，就会抛BlockException
+//        // 如果被保护的资源被限流或者降级了，就会抛BlockException ---
 //        catch (BlockException e) {
 //            log.warn("限流，或者降级了", e);
 //            return "限流，或者降级了";
 //        } catch (IllegalArgumentException e2) {
-//            // 统计IllegalArgumentException【发生的次数、发生占比...】
+//            // Tracer.trace(e2) 就会 统计IllegalArgumentException【发生的次数、发生占比...】
 //            Tracer.trace(e2);
 //            return "参数非法！";
 //        } finally {
@@ -155,31 +192,35 @@ public class TestController {
 //            ContextUtil.exit();
 //        }
 //    }
-//
-//    @GetMapping("/test-sentinel-resource")
-//    @SentinelResource(
-//        value = "test-sentinel-api",
-//        blockHandler = "block",
-//        blockHandlerClass = TestControllerBlockHandlerClass.class,
-//        fallback = "fallback"
-//    )
-//    public String testSentinelResource(@RequestParam(required = false) String a) {
-//        if (StringUtils.isBlank(a)) {
-//            throw new IllegalArgumentException("a cannot be blank.");
-//        }
-//        return a;
-//    }
-//
-//    /**
-//     * 1.5 处理降级
-//     * - sentinel 1.6 可以处理Throwable
-//     *
-//     * @param a
-//     * @return
-//     */
-//    public String fallback(String a) {
-//        return "限流，或者降级了 fallback";
-//    }
+
+
+
+    @GetMapping("/test-sentinel-resource")
+    @SentinelResource(
+        value = "test-sentinel-api",
+        blockHandler = "block",
+        blockHandlerClass = TestControllerBlockHandlerClass.class,
+        fallback = "fallback"
+    )
+    public String testSentinelResource(@RequestParam(required = false) String a) {
+        if (StringUtils.isBlank(a)) {
+            throw new IllegalArgumentException("a cannot be blank.");
+        }
+        return a;
+    }
+
+    /**
+     * 1.5 处理降级
+     * - sentinel 1.6 可以处理Throwable
+     *
+     * @param a
+     * @return
+     */
+    public String fallback(String a) {
+        return "限流，或者降级了 fallback";
+    }
+
+
 //
 //
 //    @Autowired
