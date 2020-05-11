@@ -23,14 +23,15 @@ spring:
           instance: c
           haha: hehe
           version: v1
-#    stream:
-#      rocketmq:
-#        binder:
-#          name-server: 127.0.0.1:9876
-#      bindings:
-#        input:
-#          destination: add-bonus
-#          group: binder-group
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+      bindings:
+        input:
+          destination: add-bonus
+          group: binder-group
+
   application:
     # 服务名称尽量用-，不要用_，不要用特殊字符
     name: user-center
@@ -51,11 +52,11 @@ logging:
 #  secret: aaaaaaabbbbbbcccccdddddaaaaaaabbbbbbcccccdddddaaaaaaabbbbbbcccccddddd
 #  # 有效期，单位秒，默认2周
 #  expire-time-in-second: 1209600
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-#  endpoint:
-#    health:
-#      show-details: always
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

@@ -27,19 +27,19 @@ spring:
         enabled: true
 
 
-#    stream:
-#      rocketmq:
-#        binder:
-#          name-server: 127.0.0.1:9876
-#        bindings:
-#          output:
-#            producer:
-#              transactional: true
-#              group: tx-add-bonus-group
-#      bindings:
-#        output:
-#          # 用来指定topic
-#          destination: add-bonus
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+        bindings:
+          output:
+            producer:
+              transactional: true
+              group: tx-add-bonus-group
+      bindings:
+        output:
+          # 用来指定topic
+          destination: add-bonus
 
   application:
     # 服务名称尽量用-，不要用_，不要用特殊字符

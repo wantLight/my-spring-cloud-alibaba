@@ -12,7 +12,7 @@ import java.util.Arrays;
  * 支持restful api
  * 重新定义资源名称
  *
- * 以上本质都是 CommonFilter
+ * 以上本质都是 CommonFilter  基于这个可以自定义Filter
  *
  */
 @Component
