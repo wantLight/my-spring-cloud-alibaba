@@ -28,6 +28,7 @@ spring:
         binder:
           name-server: 127.0.0.1:9876
       bindings:
+        # 消费消息
         input:
           destination: add-bonus
           group: binder-group

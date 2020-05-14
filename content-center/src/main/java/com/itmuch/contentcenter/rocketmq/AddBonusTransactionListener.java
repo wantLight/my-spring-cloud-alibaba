@@ -6,6 +6,7 @@ import com.itmuch.contentcenter.domain.dto.content.ShareAuditDTO;
 import com.itmuch.contentcenter.domain.entity.messaging.RocketmqTransactionLog;
 import com.itmuch.contentcenter.service.content.ShareService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
@@ -21,11 +22,18 @@ import org.springframework.messaging.MessageHeaders;
  */
 @RocketMQTransactionListener(txProducerGroup = "tx-add-bonus-group")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class AddBonusTransactionListener implements RocketMQLocalTransactionListener {
 
     private final ShareService shareService;
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
 
+    /**
+     * 执行本地事务
+     * @param msg
+     * @param arg
+     * @return
+     */
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         MessageHeaders headers = msg.getHeaders();
@@ -38,12 +46,20 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
 
         try {
             this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
+            // 在这挂了的话 需要事务回查
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;
         }
     }
 
+    /**
+     * 本地事务检查接口（回查）
+     *
+     * kill -9 后会进来回查
+     * @param msg
+     * @return
+     */
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
         MessageHeaders headers = msg.getHeaders();
@@ -55,6 +71,7 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
                 .transactionId(transactionId)
                 .build()
         );
+        log.info("本地事务检查接口（回查）{}",transactionLog==null);
         if (transactionLog != null) {
             return RocketMQLocalTransactionState.COMMIT;
         }

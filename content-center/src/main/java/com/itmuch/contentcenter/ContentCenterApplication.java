@@ -6,6 +6,8 @@ import org.springframework.cloud.alibaba.sentinel.annotation.SentinelRestTemplat
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -17,6 +19,8 @@ import java.util.Collections;
 @SpringBootApplication
 //使用feign - 远程http调用
 @EnableFeignClients
+//spring cloud stream使用
+@EnableBinding(Source.class)
 public class ContentCenterApplication {
 
     public static void main(String[] args) {

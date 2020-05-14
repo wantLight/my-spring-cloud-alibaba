@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class AddBonusStreamConsumer {
+
     private final UserService userService;
 
     @StreamListener(Sink.INPUT)
@@ -21,4 +22,5 @@ public class AddBonusStreamConsumer {
         message.setDescription("投稿加积分..");
         this.userService.addBonus(message);
     }
+
 }

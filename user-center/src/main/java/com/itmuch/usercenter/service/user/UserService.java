@@ -26,8 +26,16 @@ public class UserService {
         return this.userMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 独立封装 支持本地事务
+     * @param msgDTO
+     */
     @Transactional(rollbackFor = Exception.class)
     public void addBonus(UserAddBonusMsgDTO msgDTO) {
+
+
+
+
         // 1. 为用户加积分
         Integer userId = msgDTO.getUserId();
         Integer bonus = msgDTO.getBonus();
@@ -39,13 +47,23 @@ public class UserService {
         // 2. 记录日志到bonus_event_log表里面
         this.bonusEventLogMapper.insert(
             BonusEventLog.builder()
-                .userId(userId)
+                .userId(Integer.valueOf(null))
                 .value(bonus)
                 .event(msgDTO.getEvent())
                 .createTime(new Date())
                 .description(msgDTO.getDescription())
                 .build()
         );
+
+
+        try {
+            log.error("啦啦啦啦,这里出现了异常...");
+            throw new Exception("啦啦啦啦");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         log.info("积分添加完毕...");
     }
 
