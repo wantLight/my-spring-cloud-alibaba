@@ -55,13 +55,13 @@ public class UserService {
                 .build()
         );
 
-
-        try {
-            log.error("啦啦啦啦,这里出现了异常...");
-            throw new Exception("啦啦啦啦");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            log.error("啦啦啦啦,这里出现了异常...");
+//            throw new Exception("啦啦啦啦");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
         log.info("积分添加完毕...");

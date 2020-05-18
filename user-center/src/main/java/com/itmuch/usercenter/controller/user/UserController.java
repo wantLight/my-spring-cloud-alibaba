@@ -2,12 +2,14 @@ package com.itmuch.usercenter.controller.user;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.itmuch.usercenter.auth.CheckLogin;
 import com.itmuch.usercenter.domain.dto.user.JwtTokenRespDTO;
 import com.itmuch.usercenter.domain.dto.user.LoginRespDTO;
 import com.itmuch.usercenter.domain.dto.user.UserLoginDTO;
 import com.itmuch.usercenter.domain.dto.user.UserRespDTO;
 import com.itmuch.usercenter.domain.entity.user.User;
 import com.itmuch.usercenter.service.user.UserService;
+import com.itmuch.usercenter.util.JwtOperator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -24,14 +26,26 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final WxMaService wxMaService;
-
+    private final JwtOperator jwtOperator;
 
     @GetMapping("/{id}")
+    @CheckLogin
     public User findById(@PathVariable Integer id) {
         log.info("我被请求了...");
         return this.userService.findById(id);
     }
 
+    /**
+     * 模拟生成token(假的登录)
+     */
+    @GetMapping("/gen-token")
+    public String genToken() {
+        Map<String, Object> userInfo = new HashMap<>(3);
+        userInfo.put("id", 1);
+        userInfo.put("wxNickname", "大目");
+        userInfo.put("role", "admin");
+        return this.jwtOperator.generateToken(userInfo);
+    }
 
     @PostMapping("/login")
     public LoginRespDTO login(@RequestBody UserLoginDTO loginDTO) throws WxErrorException {
@@ -52,14 +66,14 @@ public class UserController {
         userInfo.put("wxNickname", user.getWxNickname());
         userInfo.put("role", user.getRoles());
 
-//        String token = jwtOperator.generateToken(userInfo);
-//
-//        log.info(
-//            "用户{}登录成功，生成的token = {}, 有效期到:{}",
-//            loginDTO.getWxNickname(),
-//            token,
-//            jwtOperator.getExpirationTime()
-//        );
+        String token = jwtOperator.generateToken(userInfo);
+
+        log.info(
+            "用户{}登录成功，生成的token = {}, 有效期到:{}",
+            loginDTO.getWxNickname(),
+            token,
+            jwtOperator.getExpirationTime()
+        );
 
         // 构建响应
         return LoginRespDTO.builder()
@@ -69,6 +83,12 @@ public class UserController {
                     .avatarUrl(user.getAvatarUrl())
                     .bonus(user.getBonus())
                     .wxNickname(user.getWxNickname())
+                    .build()
+            )
+            .token(
+                JwtTokenRespDTO.builder()
+                    .expirationTime(jwtOperator.getExpirationTime().getTime())
+                    .token(token)
                     .build()
             )
             .build();

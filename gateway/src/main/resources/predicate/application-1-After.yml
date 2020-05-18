@@ -1,0 +1,47 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          # 让gateway通过服务发现组件找到其他的微服务
+          enabled: true
+      routes:
+        # 唯一标识 表示访问 after_route/** 会转发到 lb://user-center/**
+        - id: after_route
+          uri: lb://user-center
+          # Spring Cloud Gateway提供了十来种路由谓词工厂。为网关实现灵活的转发提供了基石。
+          predicates:
+            # 当且仅当请求时的时间After配置的时间时，才会转发到用户微服务
+            # 目前配置不会进该路由配置，所以返回404
+            # 将时间改成 < now的时间，则访问localhost:8040/** -> user-center/**
+            # eg. 访问http://localhost:8040/users/1 -> user-center/users/1
+            - After=2030-01-20T17:42:47.789-07:00[America/Denver]
+          filters:
+            - AddRequestHeader=X-Request-Foo, Bar
+            - name: RequestRateLimiter
+              args:
+                # 令牌桶每秒填充平均速率
+                redis-rate-limiter.replenishRate: 1
+                # 令牌桶的上限
+                redis-rate-limiter.burstCapacity: 2
+                # 使用SpEL表达式从Spring容器中获取Bean对象
+                key-resolver: "#{@pathKeyResolver}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    org.springframework.cloud.gateway: trace
