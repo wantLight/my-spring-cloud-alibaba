@@ -46,7 +46,7 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
 
         try {
             this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
-            // 在这挂了的话 需要事务回查
+            // -- 在这挂了的话 需要事务回查
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;

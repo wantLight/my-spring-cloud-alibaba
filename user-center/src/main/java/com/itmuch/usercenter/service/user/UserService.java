@@ -47,7 +47,7 @@ public class UserService {
         // 2. 记录日志到bonus_event_log表里面
         this.bonusEventLogMapper.insert(
             BonusEventLog.builder()
-                .userId(Integer.valueOf(null))
+                .userId(userId)
                 .value(bonus)
                 .event(msgDTO.getEvent())
                 .createTime(new Date())
