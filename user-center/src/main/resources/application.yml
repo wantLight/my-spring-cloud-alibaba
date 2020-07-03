@@ -19,10 +19,10 @@ spring:
         # 指定集群名称
         cluster-name: BJ
         # 定义元数据， 扩展Ribbon-基于元数据的版本控制
-        metadata:
-          instance: c
-          haha: hehe
-          version: v1
+#        metadata:
+#          instance: c
+#          haha: hehe
+#          version: v1
     stream:
       rocketmq:
         binder:
@@ -43,6 +43,8 @@ spring:
 #    sampler:
 #      # 抽样率，默认是0.1（10%）
 #      probability: 1.0
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 8082
 logging:
@@ -61,3 +63,14 @@ management:
   endpoint:
     health:
       show-details: always
+
+dubbo:
+  scan:
+    # 指定 Dubbo 服务实现类的扫描基准包
+    base-packages: com.itmuch.usercenter.service.dubbo
+  protocol:
+    # Dubbo服务暴露的协议配置，其中子属性name为协议名称，port为协议端口（-1 表示自增端口，从 20880 开始）
+    name: dubbo
+    port: -1
+  registry:
+    address: spring-cloud://127.0.0.1

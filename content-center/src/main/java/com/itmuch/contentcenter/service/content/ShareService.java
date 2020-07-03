@@ -53,6 +53,7 @@ public class ShareService {
 
 
 
+
     public ShareDTO findById(Integer id) {
         // 获取分享详情
         Share share = this.shareMapper.selectByPrimaryKey(id);
@@ -63,7 +64,6 @@ public class ShareService {
 //        String targetURL = instances.stream().map(instance ->
 //                instance.getUri().toString() + "/users/{id}"
 //        ).findFirst().orElseThrow(() -> new IllegalArgumentException("当前没有示例"));
-
 
 
         // Ribbon自动转化user-center
