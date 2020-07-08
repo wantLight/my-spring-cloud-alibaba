@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://120.79.143.66:3306/user_center
+    url: jdbc:mysql://172.17.30.13:3306/user_center
     hikari:
       username: root
-      password: WSQlight
+      password: szstiroot3013
       # >= 6.x: com.mysql.cj.jdbc.Driver
       # <= 5.x: com.mysql.jdbc.Driver
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,15 +23,16 @@ spring:
 #          instance: c
 #          haha: hehe
 #          version: v1
-    stream:
-      rocketmq:
-        binder:
-          name-server: 127.0.0.1:9876
-      bindings:
-        # 消费消息
-        input:
-          destination: add-bonus
-          group: binder-group
+
+#    stream:
+#      rocketmq:
+#        binder:
+#          name-server: 127.0.0.1:9876
+#      bindings:
+#        # 消费消息
+#        input:
+#          destination: add-bonus
+#          group: binder-group
 
   application:
     # 服务名称尽量用-，不要用_，不要用特殊字符
@@ -69,6 +70,7 @@ dubbo:
     # 指定 Dubbo 服务实现类的扫描基准包
     base-packages: com.itmuch.usercenter.service.dubbo
   protocol:
+    # 通信协议
     # Dubbo服务暴露的协议配置，其中子属性name为协议名称，port为协议端口（-1 表示自增端口，从 20880 开始）
     name: dubbo
     port: -1

@@ -121,7 +121,7 @@
         </dependency>
 
 
-        <!-- Dubbo Spring Cloud Starter -->
+        <!-- Dubbo Spring Cloud Starter 2.7.3 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>

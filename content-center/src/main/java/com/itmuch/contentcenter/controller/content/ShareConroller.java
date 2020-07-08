@@ -1,12 +1,15 @@
 package com.itmuch.contentcenter.controller.content;
 
 import com.itmuch.contentcenter.auth.CheckLogin;
-import com.itmuch.contentcenter.dao.User;
+
 import com.itmuch.contentcenter.domain.dto.content.ShareDTO;
-import com.itmuch.contentcenter.dubbo.DubboService;
+
+
 import com.itmuch.contentcenter.service.content.ShareService;
+import com.itmuch.usercenter.domain.entity.user.User;
+import com.itmuch.usercenter.service.DubboService;
 import lombok.RequiredArgsConstructor;
-import org.apache.dubbo.config.annotation.Reference;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +23,14 @@ public class ShareConroller {
 
     private final ShareService shareService;
 
-    @Reference
-    private DubboService helloService;
-
-    @GetMapping("/find")
-    public User find() {
-        return helloService.findById(1);
-    }
+//    @Reference
+//    private DubboService helloService;
+//
+//    // http://localhost:8010/shares/find
+//    @GetMapping("/find")
+//    public User find() {
+//        return helloService.findById(1);
+//    }
 
     @GetMapping("/{id}")
     @CheckLogin

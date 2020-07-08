@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://120.79.143.66:3306/share_center
+    url: jdbc:mysql://172.17.30.13:3306/content_center
     hikari:
       username: root
-      password: WSQlight
+      password: szstiroot3013
       # >= 6.x: com.mysql.cj.jdbc.Driver
       # <= 5.x: com.mysql.jdbc.Driver
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -105,12 +105,12 @@ resttemplate:
 #  # 有效期，单位秒，默认2周
 #  expire-time-in-second: 1209600
 
-dubbo:
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    address: spring-cloud://localhost
-  cloud:
-    # 表示要订阅服务的服务名，可以配置'*'，代表订阅所有服务，不推荐使用。若需订阅多应用，使用 "," 分割。
-    subscribed-services: user-center
+#dubbo:
+#  protocol:
+#    name: dubbo
+#    port: -1
+#  registry:
+#    address: spring-cloud://127.0.0.1
+#  cloud:
+#    # 表示要订阅服务的服务名，可以配置'*'，代表订阅所有服务，不推荐使用。若需订阅多应用，使用 "," 分割。
+#    subscribed-services: user-center

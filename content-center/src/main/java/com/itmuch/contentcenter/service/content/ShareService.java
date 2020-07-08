@@ -40,7 +40,7 @@ public class ShareService {
 
 //    private final RocketMQTemplate rocketMQTemplate;
     // stream 流编程
-    private final Source source;
+
 
 //    private final DiscoveryClient discoveryClient;
 
@@ -50,6 +50,9 @@ public class ShareService {
      * restTemplate 的性能远高于 Feign，除此之外选择feign就好啦
      */
     private final UserCenterFeignClient userCenterFeignClient;
+
+
+    //private final Source source;
 
 
 
@@ -121,21 +124,21 @@ public class ShareService {
             // 发送半消息。。
             String transactionId = UUID.randomUUID().toString();
 
-            this.source.output()
-                    .send(
-                            MessageBuilder
-                                    .withPayload(
-                                            UserAddBonusMsgDTO.builder()
-                                                    .userId(share.getUserId())
-                                                    .bonus(50)
-                                                    .build()
-                                    )
-                                    // stream的 header也有妙用...
-                                    .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
-                                    .setHeader("share_id", id)
-                                    .setHeader("dto", JSON.toJSONString(auditDTO))
-                                    .build()
-                    );
+//            this.source.output()
+//                    .send(
+//                            MessageBuilder
+//                                    .withPayload(
+//                                            UserAddBonusMsgDTO.builder()
+//                                                    .userId(share.getUserId())
+//                                                    .bonus(50)
+//                                                    .build()
+//                                    )
+//                                    // stream的 header也有妙用...
+//                                    .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+//                                    .setHeader("share_id", id)
+//                                    .setHeader("dto", JSON.toJSONString(auditDTO))
+//                                    .build()
+//                    );
         }
         else {
             this.auditByIdInDB(id, auditDTO);

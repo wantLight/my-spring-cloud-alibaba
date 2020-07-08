@@ -20,7 +20,7 @@ import java.util.Collections;
 //使用feign - 远程http调用
 @EnableFeignClients
 //spring cloud stream使用
-@EnableBinding(Source.class)
+//@EnableBinding(Source.class)
 public class ContentCenterApplication {
 
     public static void main(String[] args) {

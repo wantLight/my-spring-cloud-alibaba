@@ -11,10 +11,10 @@ import tk.mybatis.spring.annotation.MapperScan;
 // 扫描mybatis哪些包里面的接口
 @MapperScan("com.itmuch.usercenter.dao")
 @SpringBootApplication
-@EnableBinding({Sink.class})
+//@EnableBinding({Sink.class})
 public class UserCenterApplication {
 
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         SpringApplication.run(UserCenterApplication.class, args);
     }
 
