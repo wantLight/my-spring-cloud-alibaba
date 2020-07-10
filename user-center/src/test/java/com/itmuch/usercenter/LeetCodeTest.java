@@ -1,11 +1,13 @@
 package com.itmuch.usercenter;
 
+import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Condition;
@@ -28,6 +30,30 @@ public class LeetCodeTest {
     public void test111(){
 
 
+    }
+
+    private List<List<Integer>> lists = new LinkedList<>();
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null){
+            return lists;
+        }
+        reverseLevel(root,0);
+        return lists;
+    }
+
+    private void  reverseLevel(TreeNode node, int leve){
+        if (leve == lists.size()){
+            lists.add( new LinkedList<>());
+        }
+        lists.get(leve).add(node.val);
+        if (node.left != null){
+            // bu能用i++
+            reverseLevel(node.left,leve+1);
+        }
+        if (node.right != null){
+            reverseLevel(node.right,leve+1);
+        }
     }
 
 
