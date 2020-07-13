@@ -5,10 +5,7 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.LockSupport;
@@ -27,10 +24,119 @@ public class LeetCodeTest {
     private boolean res = true;
     private long maxVal = Long.MIN_VALUE;
 
-    public void test111(){
 
-
+    /**
+     * todo 异或 - 运算 相同取0，相异取1
+     * @param nums
+     * @return
+     */
+    public static int singleNumber(int[] nums) {
+        if(nums.length < 1) return 0;
+        int result = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            result = result ^ nums[i];
+        }
+        return result;
     }
+
+
+    /**
+     * todo 这里的算法需要记忆一下
+     * [1,2,3,4,5,6,7] 和 k = 3
+     * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+     */
+    public void rotate(int[] nums, int k) {
+        k %= nums.length;
+        int count = 0; //记录总共移动的次数
+        for (int i = 0; count < nums.length; i++) {
+            int current = i;
+            int prev = nums[i];
+            do {
+                int next = (current + k) % nums.length;
+                System.out.println("现在是第"+ i +"轮次，当前交换的是：" +  next + "值为" + nums[next]);
+                int temp = nums[next];
+                nums[next] = prev;
+                prev = temp;
+                current = next;
+                count++;
+            } while (i != current);
+        }
+        System.out.println(count);
+    }
+
+
+    /**
+     * 设计一个算法来计算你所能获取的最大利润。
+     * 你可以尽可能地完成更多的交易（多次买卖一支股票）。
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        if (prices.length < 1){
+            return 0;
+        }
+        int maxVal = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if(prices[i] > prices[i-1]){
+                maxVal = maxVal + prices[i] - prices[i-1];
+            }
+        }
+        return maxVal;
+    }
+
+    @Test
+    public void tetetst(){
+        //sortedArrayToBST(new int[]{-10,-3,0,5,9});
+
+        // rotate(new int[]{1,2,3,4,5,6,7,8}, 4);
+
+        System.out.println(singleNumber(new int[]{1,1,3,4,3}));
+
+        System.out.println(6^5^6);
+    }
+
+    /**
+     *
+     * @param nums
+     * @return
+     */
+    public int removeDuplicates(int[] nums) {
+        int j = 0;
+        nums[j] = nums[0];
+        for (int i=0;i<nums.length;i++){
+            if (nums[j] != nums[i]){
+                nums[j++] = nums[i];
+            }
+        }
+        return j;
+    }
+
+    /**
+     * 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
+     * [-10,-3,0,5,9]
+     * 我们可以通过二分法，不停的将中点值设置为当前子树的根节点，左孩子为左半部数组的中点值，右孩子为右半部数组的中点值，递归执行。
+     * @param nums
+     * @return
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums.length == 0) {
+            return null;
+        }
+        return buildBST(nums,0,nums.length-1);
+    }
+
+    private TreeNode buildBST(int[] nums,int start, int end){
+        if(start<=end) {
+            int mid = (start + end) / 2;
+            TreeNode root = new TreeNode(nums[mid]);
+            root.left = buildBST(nums,start,mid-1);
+            root.right = buildBST(nums,mid+1,end);
+            return root;
+        } else {
+            return null;
+        }
+    }
+
 
     private List<List<Integer>> lists = new LinkedList<>();
 
