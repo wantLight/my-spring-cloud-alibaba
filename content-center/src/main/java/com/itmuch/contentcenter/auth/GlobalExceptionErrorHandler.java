@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionErrorHandler {
+
+    /**
+     * 捕捉到异常后要把Http状态码改变
+     * @param e
+     * @return
+     */
     @ExceptionHandler(SecurityException.class)
     public ResponseEntity<ErrorBody> error(SecurityException e) {
         log.warn("发生SecurityException异常", e);

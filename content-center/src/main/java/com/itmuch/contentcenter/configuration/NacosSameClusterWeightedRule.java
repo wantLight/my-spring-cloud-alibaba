@@ -77,6 +77,10 @@ public class NacosSameClusterWeightedRule extends AbstractLoadBalancerRule {
     }
 }
 
+/**
+ * 调用这种方法
+ * protected static Instance getHostByRandomWeight(List<Instance> hosts) {
+ */
 class ExtendBalancer extends Balancer {
     // 调用protect的方法
     public static Instance getHostByRandomWeight2(List<Instance> hosts) {

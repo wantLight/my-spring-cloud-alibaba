@@ -19,6 +19,8 @@ import java.util.Objects;
 
 /**
  * 使用AOP对接口进行鉴权
+ *
+ * 面向固定注解标识的方法织入
  */
 @Aspect
 @Component
