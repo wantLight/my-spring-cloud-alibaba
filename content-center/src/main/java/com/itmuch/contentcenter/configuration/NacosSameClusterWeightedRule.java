@@ -54,7 +54,7 @@ public class NacosSameClusterWeightedRule extends AbstractLoadBalancerRule {
                 .collect(Collectors.toList());
 
             // 3. 如果B是空，就用A
-            List<Instance> instancesToBeChosen = new ArrayList<>();
+            List<Instance> instancesToBeChosen;
             if (CollectionUtils.isEmpty(sameClusterInstances)) {
                 instancesToBeChosen = instances;
                 log.warn("发生跨集群的调用, name = {}, clusterName = {}, instances = {}",

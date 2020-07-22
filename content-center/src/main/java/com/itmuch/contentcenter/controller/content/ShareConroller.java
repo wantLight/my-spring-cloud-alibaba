@@ -6,8 +6,7 @@ import com.itmuch.contentcenter.domain.dto.content.ShareDTO;
 
 
 import com.itmuch.contentcenter.service.content.ShareService;
-import com.itmuch.usercenter.domain.entity.user.User;
-import com.itmuch.usercenter.service.DubboService;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
