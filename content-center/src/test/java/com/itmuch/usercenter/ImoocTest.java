@@ -4,8 +4,8 @@ package com.itmuch.usercenter;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.util.Comparator.*;
 
@@ -46,6 +46,14 @@ public class ImoocTest {
 
         //课程表
         int[][] course = {{2,5},{2,19},{1,8},{1,3}};
+        
+        StringBuffer stringBuffer = new StringBuffer();
+        Vector vector = new Vector();
+        List<Object> objectList = Collections.synchronizedList(new ArrayList<>());
+        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
+
+        List tesyt = new ArrayList<>(10);
+
 
     }
 
