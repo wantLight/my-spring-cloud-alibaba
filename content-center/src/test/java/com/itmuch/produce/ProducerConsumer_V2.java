@@ -1,4 +1,4 @@
-package com.itmuch.demo;
+package com.itmuch.produce;
 
 public class ProducerConsumer_V2 {
     public static void main(String[] args) {

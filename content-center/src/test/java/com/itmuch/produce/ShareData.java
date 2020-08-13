@@ -1,4 +1,4 @@
-package com.itmuch.demo;
+package com.itmuch.produce;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
