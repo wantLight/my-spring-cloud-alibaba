@@ -5,8 +5,11 @@ import java.util.concurrent.CompletableFuture;
 /**
  * 本例中并没有显示的创建任务连接池，程序会默认选择一个任务连接池ForkJoinPool.commonPool()
  * ForkJoinPool始自JDK7，叫做分支/合并框架。可以通过将一个任务递归分成很多分子任务，形成不同的流，进行并行执行，同时还伴随着强大的工作窃取算法。极大的提高效率。
- *
  * CompletableFuture，更加感觉到Java8的强大，强大的流概念、行为参数化、高效的并行理念
+ *
+ * 使用Future获得异步执行结果时，要么调用阻塞方法get()，要么轮询看isDone()是否为true，这两种方法都不是很好，因为主线程也会被迫等待。
+ *
+ * 从Java 8开始引入了CompletableFuture，它针对Future做了改进，可以传入回调对象，当异步任务完成或者发生异常时，自动调用回调对象的回调方法。
  */
 public class CompletableFutureTest {
 
