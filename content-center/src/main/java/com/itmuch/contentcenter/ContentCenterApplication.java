@@ -38,9 +38,9 @@ public class ContentCenterApplication {
      */
     @Bean
     // 为RestTemplate增加Ribbon
-    @LoadBalanced
+    //@LoadBalanced
     // 为RestTemplate整合Sentinel
-    @SentinelRestTemplate
+    //@SentinelRestTemplate
     public RestTemplate restTemplate() {
         RestTemplate template = new RestTemplate();
 //        template.setInterceptors(

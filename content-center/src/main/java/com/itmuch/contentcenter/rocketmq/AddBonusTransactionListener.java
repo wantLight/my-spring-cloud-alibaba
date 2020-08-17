@@ -18,6 +18,10 @@ import org.springframework.messaging.MessageHeaders;
 /**
  * rocketmq 自带分布式事务功能
  *
+ * 1、在扣款之前，先发送预备消息
+ * 2、发送预备消息成功后，执行本地扣款事务
+ * 3、扣款成功后，再发送确认消息
+ * 4、消息端（加钱业务）可以看到确认消息，消费此消息，进行加钱
  *
  */
 @RocketMQTransactionListener(txProducerGroup = "tx-add-bonus-group")
@@ -29,7 +33,8 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
 
     /**
-     * 执行本地事务
+     * 发送预备消息成功后，执行本地事务
+     * 执行本地事务 - 记录本地事务日志
      * @param msg
      * @param arg
      * @return
@@ -46,7 +51,7 @@ public class AddBonusTransactionListener implements RocketMQLocalTransactionList
 
         try {
             this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
-            // -- 在这挂了的话 需要事务回查
+            // 发送确认消息 -- 在这挂了的话 需要事务回查
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {
             return RocketMQLocalTransactionState.ROLLBACK;

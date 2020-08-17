@@ -28,6 +28,7 @@ public class UserService {
 
     /**
      * 独立封装 支持本地事务
+     * rocketMQ事务消息如果半消息提交成功，且本地事务执行成功，消费端消费失败会进行重试。最后进入死信队列
      * @param msgDTO
      */
     @Transactional(rollbackFor = Exception.class)
@@ -55,7 +56,7 @@ public class UserService {
                 .build()
         );
 
-//
+// 主动的抛出了一个异常来模拟消息的消费失败。
 //        try {
 //            log.error("啦啦啦啦,这里出现了异常...");
 //            throw new Exception("啦啦啦啦");
