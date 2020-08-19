@@ -67,7 +67,11 @@ public class Backtracking {
     // 皇后位置满足约束条件的判定函数
     private static boolean place(int[] arr, int s) {
         for(int i = 0; i < s; i++) {
+
             //判定s行X[s]位置上的皇后，与1至s-1行上各皇后的位置是否满足约束条件
+            // X[i] = X[s]，则第i行与第s行皇后在同一列上
+            // 如果第i行的皇后在第j列，第s行皇后在第t列，即X[i] = j和X[s] = t，则只要i-j = s-t或者i+j = s+t，说明两个皇后在同一对角线上。
+            // 及 |i-s| = |j-t|
             if((arr[i] == arr[s]) || (Math.abs(i-s) == Math.abs(arr[i]-arr[s]))) {
                 return false;
             }
