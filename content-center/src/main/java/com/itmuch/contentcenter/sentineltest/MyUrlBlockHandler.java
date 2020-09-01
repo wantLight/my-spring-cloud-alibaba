@@ -1,6 +1,7 @@
 package com.itmuch.contentcenter.sentineltest;
 
-import com.alibaba.csp.sentinel.adapter.servlet.callback.UrlBlockHandler;
+
+import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
@@ -25,9 +26,9 @@ import java.io.IOException;
  * 以上本质都是 CommonFilter
  */
 @Component
-public class MyUrlBlockHandler implements UrlBlockHandler {
+public class MyUrlBlockHandler implements BlockExceptionHandler {
     @Override
-    public void blocked(HttpServletRequest request, HttpServletResponse response, BlockException ex) throws IOException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, BlockException ex) throws IOException {
         ErrorMsg msg = null;
         if (ex instanceof FlowException) {
             msg = ErrorMsg.builder()
