@@ -16,7 +16,7 @@ public class AddBonusStreamConsumer {
 
     private final UserService userService;
 
-    @StreamListener(Sink.INPUT)
+    @StreamListener(value = Sink.INPUT)
     public void receive(UserAddBonusMsgDTO message) {
         message.setEvent("CONTRIBUTE");
         message.setDescription("投稿加积分..");

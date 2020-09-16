@@ -65,5 +65,24 @@ public class ExamRedisTests {
 //        jedis.close();
 //    }
 
+    //没有使用pipieline的情况下
+//    public void testWithoutPipeline() {
+//        Jedis jedis = new Jedis("127.0.0.1" , 6379);
+//        for(int i = 1 ; i <= 10000 ; i++ ) {
+//            jedis.hset("hashKey-" + i , "field-" + i , "value-" + i);
+//        }
+//    }
+//
+//    //使用pipeline的情况下
+//    public void testPipeline() {
+//        Jedis jedis = new Jedis("127.0.0.1" , 6379);
+//        for(int i = 0 ; i < 100 ; i++ ) {
+//            Pipeline pipeline = jedis.pipelined();
+//            for(int j = i * 100 ; i < (i+1) * 100 ; j++ ) {
+//                pipeline.hset("hashKey-" + j , "field-" + j , "value-" + j);
+//            }
+//            pipeline.syncAndReturnAll();
+//        }
+//    }
 
 }
