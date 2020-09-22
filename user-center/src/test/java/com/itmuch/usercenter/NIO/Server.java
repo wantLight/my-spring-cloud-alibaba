@@ -9,6 +9,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 这里的NIO就类似于 redis的多路复用机制
+ */
 public class Server {
     public static void main(String[] args) throws InterruptedException {
         ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
