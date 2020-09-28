@@ -29,3 +29,4 @@ public interface UserCenterFeignClient {
     @GetMapping("/users/{id}")
     UserDTO findById(@PathVariable Integer id);
 }
+
