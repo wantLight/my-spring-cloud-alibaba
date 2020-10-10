@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class ShareAdminController {
     private final ShareService shareService;
 
+    /**
+     * 新建一条记录的话就用post，
+     * 更新一条记录的话就用put.
+     * @param id
+     * @param auditDTO
+     * @return
+     */
     @PutMapping("/audit/{id}")
     //@CheckAuthorization("admin")
     public Share auditById(@PathVariable Integer id, @RequestBody ShareAuditDTO auditDTO) {
